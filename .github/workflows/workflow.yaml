@@ -36,7 +36,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   context: .
-                  build_args: |
+                  build-args: |
                       V2R_VERSION=${{ steps.v2ray.outputs.release }}
                   push: true
                   tags: anerg/v2ray:latest, anerg/v2ray:${{ steps.v2ray.outputs.release }}
