@@ -1,0 +1,30 @@
+{
+    "inbounds": [
+        {
+            "port": 1234,
+            "listen": "127.0.0.1",
+            "tag": "vmess-in",
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "uuid",
+                        "alterId": 0
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/ws_path/"
+                }
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "settings": {}
+        }
+    ]
+}

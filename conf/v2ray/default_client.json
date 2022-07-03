@@ -1,0 +1,13 @@
+{
+    "v": "2",
+    "ps": "hostname-placeholder",
+    "add": "address-placeholder",
+    "port": "443",
+    "id": "uuid-placeholder",
+    "aid": "0",
+    "net": "ws",
+    "type": "none",
+    "host": "hostname-placeholder",
+    "path": "/ws_path-placeholder/",
+    "tls": "tls"
+}

@@ -1,0 +1,51 @@
+name: Build Docker Images
+
+on:
+    schedule:
+        - cron: "0 10 * * *"
+    push:
+        branches:
+            - "**"
+
+jobs:
+    build:
+        name: Caddy V2ray
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get Latest V2ray Version
+              id: v2ray
+              use: pozetroninc/github-action-get-latest-release@master
+              with:
+                  repository: v2fly/v2ray-core
+                  excludes: "prerelease, draft"
+
+            - name: Cache V2ray Version
+              id: cache-version
+              uses: actions/cache@v3
+              with:
+                  path: v2ray-version
+                  key: ${{ runner.os }}-v2ray-version
+
+            - name: Save New V2ray Version
+              if: steps.cache-version.outputs.cache-hit != 'true'
+              run: |
+                  echo ${{ steps.v2ray.outputs.release }} | tee v2ray-version
+
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Login to DockerHub
+              if: github.event_name != 'pull_request'
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKERHUB_USER }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and push
+              if: steps.cache-version.outputs.cache-hit != 'true'
+              uses: docker/build-push-action@v3
+              with:
+                  context: .
+                  build_args: V2R_VERSION=${{ steps.v2ray.outputs.release }}
+                  push: true
+                  tags: anerg/v2ray:latest, anerg/v2ray:${{ steps.v2ray.outputs.release }}

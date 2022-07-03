@@ -1,0 +1,11 @@
+example.domain {
+    file_server {
+        root /var/www/v2ray
+    }
+
+    tls your@email.com
+
+    reverse_proxy /ws_path/ localhost:1234 {
+        header_up X-Forwarded-For {remote_host}
+    }
+}
