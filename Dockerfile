@@ -17,6 +17,7 @@ ENV CADDY_PATH_CONF /etc/caddy
 ADD boot.sh /usr/bin
 
 COPY conf/ /conf/
+COPY html/ /var/www/v2ray/ 
 
 RUN set -xe \
     && apk -U upgrade \
