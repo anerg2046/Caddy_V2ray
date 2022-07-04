@@ -40,3 +40,10 @@ jobs:
         with:
           version: ${{ steps.getVersion.outputs.release }}
           token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Trigger build
+        if: env.LAST_TAG != steps.getVersion.outputs.release
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
+          event-type: V2ray Version Update
