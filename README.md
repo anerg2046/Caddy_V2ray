@@ -1,5 +1,7 @@
 # Caddy V2ray SSL TSL Websocket 整合镜像
 
+[![Build Docker Images](https://github.com/anerg2046/Caddy_V2ray/actions/workflows/workflow.yaml/badge.svg)](https://github.com/anerg2046/Caddy_V2ray/actions/workflows/workflow.yaml)
+
 ### 环境需求：
 - 一台运行docker的主机
 - 一个域名，可以是二级域名，并已解析A记录到你的主机IP
