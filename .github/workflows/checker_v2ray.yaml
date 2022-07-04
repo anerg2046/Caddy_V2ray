@@ -33,5 +33,7 @@ jobs:
 
       - name: Compare Version
         if: ${{ env.LAST_TAG }} != ${{ steps.getVersion.outputs.release }}
-        run: |
-          echo "Not Same"
+        uses: Klemensas/action-autotag@stable
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          version: "${{ steps.getVersion.outputs.release }}"
