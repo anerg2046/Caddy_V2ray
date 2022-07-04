@@ -27,11 +27,11 @@ jobs:
         run: |
           echo ${{ steps.getVersion.outputs.release }}
 
-      - name: Echo My Version
+      - name: Echo My Tag
         run: |
           echo ${{ env.LAST_TAG }}
 
       - name: Compare Version
-        if: ${{ steps.getMyVersion.outputs.release }} != ${{ steps.getVersion.outputs.release }}
+        if: ${{ env.LAST_TAG }} != ${{ steps.getVersion.outputs.release }}
         run: |
           echo "Not Same"
