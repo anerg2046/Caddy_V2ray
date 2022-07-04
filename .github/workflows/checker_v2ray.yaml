@@ -1,0 +1,31 @@
+name: V2ray Version Update Checker
+
+env:
+  REPO_NAME: v2fly/v2ray-core
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 8 * * *
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Latest V2ray Version
+        id: getVersion
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: v2fly/v2ray-core
+          excludes: "prerelease, draft"
+
+      - name: Compare Version
+        id: cacheVersion
+        uses: actions/cache@v2
+        with:
+          path: .versionHash
+          key: VER-${{ steps.getVersion.outputs.release }}
+        run: |
+          echo ${{ steps.getVersion.outputs.release }}
+

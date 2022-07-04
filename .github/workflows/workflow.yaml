@@ -1,42 +1,37 @@
 name: Build Docker Images
 
 on:
-    schedule:
-        - cron: "0 10 * * *"
-    push:
-        branches:
-            - "**"
+  repository_dispatch:
 
 jobs:
-    build:
-        name: Caddy V2ray
-        runs-on: ubuntu-latest
-        steps:
-            - name: Get Latest V2ray Version
-              id: v2ray
-              uses: pozetroninc/github-action-get-latest-release@master
-              with:
-                  repository: v2fly/v2ray-core
-                  excludes: "prerelease, draft"
+  build:
+    name: Caddy V2ray
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Latest V2ray Version
+        id: v2ray
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: v2fly/v2ray-core
+          excludes: "prerelease, draft"
 
-            - name: Checkout
-              uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-            - name: Login to DockerHub
-              if: github.event_name != 'pull_request'
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKERHUB_USER }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Build and push
-              uses: docker/build-push-action@v3
-              with:
-                  context: .
-                  build-args: |
-                      V2R_VERSION=${{ steps.v2ray.outputs.release }}
-                  push: true
-                  tags: anerg/v2ray:latest, anerg/v2ray:${{ steps.v2ray.outputs.release }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          build-args: |
+            V2R_VERSION=${{ steps.v2ray.outputs.release }}
+          push: true
+          tags: anerg/v2ray:latest, anerg/v2ray:${{ steps.v2ray.outputs.release }}
