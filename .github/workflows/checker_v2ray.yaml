@@ -20,19 +20,21 @@ jobs:
           repository: v2fly/v2ray-core
           excludes: "prerelease, draft"
 
-      - name: Compare Version
-        id: cacheVersion
-        uses: actions/cache@v2
+      - name: Get My Version
+        id: getMyVersion
+        uses: pozetroninc/github-action-get-latest-release@master
         with:
-          path: .versionHash
-          key: VER-${{ steps.getVersion.outputs.release }}
+          repository: ${{ github.repository }}
 
-      - name: Echo Version
+      - name: Echo V2ray Version
         run: |
           echo ${{ steps.getVersion.outputs.release }}
 
-      - name: Save New Version
-        if: steps.cacheVersion.outputs.cache-hit != 'true'
+      - name: Echo My Version
         run: |
-          echo ${{ steps.getVersion.outputs.release }} | tee .versionHash
-          echo "New Version Set"
+          echo ${{ steps.getMyVersion.outputs.release }}
+
+      - name: Compare Version
+        if: ${{ steps.getMyVersion.outputs.release }} != ${{ steps.getVersion.outputs.release }}
+        run: |
+          echo "Not Same"
