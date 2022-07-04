@@ -26,6 +26,8 @@ jobs:
         with:
           path: .versionHash
           key: VER-${{ steps.getVersion.outputs.release }}
+      
+      - name: Echo Version
         run: |
           echo ${{ steps.getVersion.outputs.release }}
 
