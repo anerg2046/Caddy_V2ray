@@ -26,8 +26,13 @@ jobs:
         with:
           path: .versionHash
           key: VER-${{ steps.getVersion.outputs.release }}
-      
+
       - name: Echo Version
         run: |
           echo ${{ steps.getVersion.outputs.release }}
 
+      - name: Save New Version
+        if: steps.cacheVersion.outputs.cache-hit != 'true'
+        run: |
+          echo ${{ steps.getVersion.outputs.release }} | tee .versionHash
+          echo "New Version Set"
