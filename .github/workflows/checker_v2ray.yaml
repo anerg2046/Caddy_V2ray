@@ -34,8 +34,8 @@ jobs:
         run: |
           echo ${{ env.LAST_TAG }}
 
-      - name: Compare Version
-        if: ${{ env.LAST_TAG }} != ${{ steps.getVersion.outputs.release }}
+      - name: Compare Version And Add Tag
+        if: env.LAST_TAG != steps.getVersion.outputs.release
         uses: negz/create-tag@v1
         with:
           version: ${{ steps.getVersion.outputs.release }}
