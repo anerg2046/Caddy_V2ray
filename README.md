@@ -16,6 +16,7 @@
 
 ```
 docker run -d \
+  --publish=80:80 \
   --publish=443:443 \
   --env=DOMAIN=v2.mooim.com \
   --env=EMAIL=r.anerg@gmail.com \
@@ -55,6 +56,7 @@ docker run -d \
   -v /data/conf/v2ray:/etc/v2ray:rw \
   -v /data/conf/caddy:/etc/caddy:rw \
   -v /data/ssl:/data/caddy/certificates:rw \
+  --publish=80:80 \
   --publish=443:443 \
   --env=DOMAIN=v2.mooim.com \
   --env=EMAIL=r.anerg@gmail.com \

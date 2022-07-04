@@ -41,6 +41,6 @@ RUN set -xe \
     && rm /etc/caddy/Caddyfile \
     && apk add uuidgen openrc
 
-EXPOSE 443
+EXPOSE 80 443
 
 CMD ["/usr/bin/boot.sh"]
