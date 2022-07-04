@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Get Latest V2ray Version
         id: getVersion
         uses: pozetroninc/github-action-get-latest-release@master
@@ -36,7 +36,7 @@ jobs:
 
       - name: Compare Version
         if: ${{ env.LAST_TAG }} != ${{ steps.getVersion.outputs.release }}
-        uses: Klemensas/action-autotag@stable
+        uses: negz/create-tag@v1
         with:
-          GITHUB_TOKEN: "${{ secrets.REPO_TOKEN }}"
-          version: "${{ steps.getVersion.outputs.release }}"
+          version: ${{ steps.getVersion.outputs.release }}
+          token: ${{ secrets.REPO_TOKEN }}
