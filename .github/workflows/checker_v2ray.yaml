@@ -20,11 +20,8 @@ jobs:
           repository: v2fly/v2ray-core
           excludes: "prerelease, draft"
 
-      - name: Get My Version
-        id: getMyVersion
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          repository: ${{ github.repository }}
+      - name: Get My Tag
+        uses: rmeneely/git-last-tag@v1
 
       - name: Echo V2ray Version
         run: |
@@ -32,7 +29,7 @@ jobs:
 
       - name: Echo My Version
         run: |
-          echo ${{ steps.getMyVersion.outputs.release }}
+          echo ${{ env.LAST_TAG }}
 
       - name: Compare Version
         if: ${{ steps.getMyVersion.outputs.release }} != ${{ steps.getVersion.outputs.release }}
