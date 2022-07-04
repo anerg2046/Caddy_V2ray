@@ -25,6 +25,8 @@ docker run -d \
   anerg/v2ray:latest
 ```
 
+> 开放`80`端口是因为zerossl在发证书的时候需要先访问80端口
+
 之后运行命令`docker logs caddy_v2ray`（注意，这里的`caddy_v2ray`要和命令中的`--name`的值一致）
 
 你就能看到类似如下的输出：
