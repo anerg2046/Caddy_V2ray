@@ -60,16 +60,19 @@ docker run -d \
   -v /data/conf/v2ray:/etc/v2ray:rw \
   -v /data/conf/caddy:/etc/caddy:rw \
   -v /data/ssl:/data/caddy/certificates:rw \
-  --publish=80:80 \
-  --publish=443:443 \
-  --env=DOMAIN=v2.mooim.com \
-  --env=EMAIL=r.anerg@gmail.com \
+  -p 80:80 \
+  -p 443:443 \
+  -e DOMAIN=v2.mooim.com \
+  -e EMAIL=r.anerg@gmail.com \
   --restart=always \
   --name=caddy_v2ray \
+  --net=work-net \
   anerg/v2ray:latest
 ```
 
 这里的`/data/conf/v2ray`和`/data/conf/caddy`你可以自定义，如果报错，就手动创建这俩目录
+
+`--net`可以指定已有的docker网络
 
 ### 注意：如果宿主机已有nginx之类的占用443端口
 
