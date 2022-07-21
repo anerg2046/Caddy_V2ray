@@ -5,7 +5,7 @@
 ### 环境需求：
 - 一台运行docker的主机
 - 一个域名，可以是二级域名，并已解析A记录到你的主机IP
-- 一个邮箱地址，用于caddy申请SSL证书（其实随便写一个也行）
+- 一个邮箱地址，用于caddy申请SSL证书，如果不填将不会申请证书，且caddy只监听80端口
 
 ### 快速开始
 
@@ -14,7 +14,7 @@
 | 参数名 | 是否必须 | 默认值 | 说明
 |  ----  | ----  | ---- | ----
 | DOMAIN | 是 | 无 | 申请证书的域名，可以是二级域名
-| EMAIL | 是 | 无 | 申请证书的邮箱，可以随便写一个符合规则的邮箱
+| EMAIL | 否 | 无 | 申请证书的邮箱，如果不填将不会申请证书，且caddy只监听80端口
 
 ```
 docker run -d \
@@ -45,7 +45,9 @@ V2ray 配置信息
 路径（不要落下/）： /8768f5ff9/
 底层传输安全： tls
 =====================================
+=========复制以下内容进行导入==========
 vmess://ewogICAgInYiOiAiMiIsCiAgICAicHMiOiAidjIubW9vaW0uY29tIiwKICAgICJhZGQiOiAidjIubW9vaW0uY29tIiwKICAgICJwb3J0IjogIjQ0MyIsCiAgICAiaWQiOiAiYTczNmIxZWYtYTk2ZS00ZjM1LThmNmItNWI3NmEwNTBlMjgyIiwKICAgICJhaWQiOiAiMCIsCiAgICAibmV0IjogIndzIiwKICAgICJ0eXBlIjogIm5vbmUiLAogICAgImhvc3QiOiAidjIubW9vaW0uY29tIiwKICAgICJwYXRoIjogIi84NzY4ZjVmZjkvIiwKICAgICJ0bHMiOiAidGxzIgp9
+=========复制以上内容进行导入==========
 {"level":"info","ts":1656863534.6378205,"msg":"using provided configuration","config_file":"/etc/caddy/Caddyfile","config_adapter":"caddyfile"}
 {"level":"warn","ts":1656863534.6384249,"logger":"caddyfile","msg":"Unnecessary header_up X-Forwarded-For: the reverse proxy's default behavior is to pass headers to the upstream"}
 .......
@@ -74,11 +76,44 @@ docker run -d \
 
 `--net`可以指定已有的docker网络
 
-### 注意：如果宿主机已有nginx之类的占用443端口
+### 当有其他代理软件存在的时候
 
-需要修改参数`--publish=8443:443`指定一个未被占用的宿主机端口，然后使用nginx或其他软件反代
+比如你有已经运行的`nginx-proxy`或者`traefik`之类的，那么不设置环境变量`EMAIL`即可，以下是配合`traefik`的例子
 
-`nginx`需要`ssl_preread`支持，具体可参考这篇博文 https://www.jianshu.com/p/70b500c07ccc
+```
+version: '3'
+
+networks:
+  work-net:
+    external: true
+
+services:
+  caddy_v2ray:
+    image: anerg/v2ray
+    container_name: caddy_v2ray
+    restart: always
+    volumes:
+      - v2ray:/etc/v2ray:rw
+      - caddy:/etc/caddy:rw
+    networks:
+      - work-net
+    environment:
+      - "DOMAIN=${V2RAY_DOMAIN:-v2.mooim.com}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.v2ray.rule=Host(`${V2RAY_DOMAIN:-v2.mooim.com}`)"
+      - "traefik.http.routers.v2ray.tls=true"
+      - "traefik.http.routers.v2ray.tls.certresolver=leresolver"
+      - "traefik.http.routers.v2ray.entrypoints=websecure"
+      - "traefik.http.routers.v2ray.service=v2ray"
+      - "traefik.http.services.v2ray.loadbalancer.server.port=80"
+
+volumes:
+  v2ray:
+    name: v2ray_v2ray
+  caddy:
+    name: v2ray_caddy
+```
 
 
 ### 如何更新

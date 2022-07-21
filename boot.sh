@@ -14,17 +14,17 @@ if [ -z $DOMAIN ];then
     exit 2
 fi
 
-if [ -z $EMAIL ];then
-    echo "未设置环境变量-EMAIL"
-    exit 2
-fi
-
 if [ ! -e "/etc/caddy/Caddyfile" ];then
     WS_PATH="`echo $RANDOM | md5sum | cut -c 3-11`"
     WS_PORT=$(($RANDOM+1234))
     UUID=$(uuidgen)
 
-    cp -f /conf/caddy/default_Caddyfile /etc/caddy/Caddyfile
+    if [ -z $EMAIL ];then
+        cp -f /conf/caddy/http.Caddyfile /etc/caddy/Caddyfile
+    else
+        cp -f /conf/caddy/https.Caddyfile /etc/caddy/Caddyfile
+    fi
+    
     sed -i "s/example.domain/${DOMAIN}/" /etc/caddy/Caddyfile
     sed -i "s/ws_path/${WS_PATH}/" /etc/caddy/Caddyfile
     sed -i "s/1234/${WS_PORT}/" /etc/caddy/Caddyfile
@@ -54,7 +54,9 @@ if [ ! -e "/etc/caddy/Caddyfile" ];then
     sed -i "s/ws_path-placeholder/${WS_PATH}/" /etc/v2ray/client.json
 
     clientBase64="`cat /etc/v2ray/client.json | base64 -w 0`"
+    echo "=========复制以下内容进行导入=========="
     echo "vmess://"$clientBase64
+    echo "=========复制以上内容进行导入=========="
 fi
 
 start-stop-daemon --start \
