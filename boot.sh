@@ -64,6 +64,6 @@ fi
 start-stop-daemon --start \
 	-b -1 /var/log/v2ray.log -2 /var/log/v2ray.log \
 	-m -p /run/v2ray.pid \
-	--exec /usr/bin/v2ray -- -config /etc/v2ray/config.json
+	--exec /usr/bin/v2ray -- run -c /etc/v2ray/config.json
 
 /usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
