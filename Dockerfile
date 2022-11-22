@@ -31,9 +31,7 @@ RUN set -xe \
     && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray.zip ${V2R_URL} \
     && unzip /tmp/v2ray.zip -d /tmp/ \
     && mv /tmp/v2ray /usr/bin/ \
-    && mv /tmp/v2ctl /usr/bin/ \
     && chmod +x /usr/bin/v2ray \
-    && chmod +x /usr/bin/v2ctl \
     && chmod +x /usr/bin/boot.sh \
     # 删除不必要的东西
     && apk del .build-deps \
