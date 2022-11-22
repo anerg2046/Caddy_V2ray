@@ -2,7 +2,7 @@ FROM caddy:2-alpine
 
 LABEL org.opencontainers.image.authors="r.anerg@gmail.com"
 
-ARG V2R_VERSION=v4.45.1
+ARG V2R_VERSION=v5.1.0
 ARG DOMAIN
 ARG EMAIL
 
@@ -41,4 +41,4 @@ RUN set -xe \
 
 EXPOSE 80 443
 
-CMD ["/usr/bin/boot.sh"]
+ENTRYPOINT ["/usr/bin/boot.sh"]

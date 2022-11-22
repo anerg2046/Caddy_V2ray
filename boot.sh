@@ -30,6 +30,8 @@ if [ ! -e "/etc/caddy/Caddyfile" ];then
     sed -i "s/1234/${WS_PORT}/" /etc/caddy/Caddyfile
     sed -i "s/your@email.com/${EMAIL}/" /etc/caddy/Caddyfile
 
+    /usr/bin/caddy fmt --overwrite /etc/caddy/Caddyfile
+
     cp -f /conf/v2ray/default_config.json /etc/v2ray/config.json
     sed -i "s/1234/${WS_PORT}/" /etc/v2ray/config.json
     sed -i "s/uuid/${UUID}/" /etc/v2ray/config.json
