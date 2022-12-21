@@ -7,6 +7,11 @@
 - 一个域名，可以是二级域名，并已解析A记录到你的主机IP
 - 一个邮箱地址，用于caddy申请SSL证书，如果不填将不会申请证书，且caddy只监听80端口
 
+### 常见操作系统docker安装教程：
+
+参见官方文档
+https://docs.docker.com/engine/install/
+
 ### 快速开始
 
 可用参数
