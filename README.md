@@ -58,7 +58,7 @@ vmess://ewogICAgInYiOiAiMiIsCiAgICAicHMiOiAidjIubW9vaW0uY29tIiwKICAgICJhZGQiOiAi
 .......
 ```
 
-** 注意 **
+**注意**
 
 因为升级了v5版本，某些客户端你可能需要手动修改alertId为0
 
