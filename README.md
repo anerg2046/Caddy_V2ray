@@ -58,6 +58,10 @@ vmess://ewogICAgInYiOiAiMiIsCiAgICAicHMiOiAidjIubW9vaW0uY29tIiwKICAgICJhZGQiOiAi
 .......
 ```
 
+** 注意 **
+
+因为升级了v5版本，某些客户端你可能需要手动修改alertId为0
+
 ### 高级使用
 
 如果不想每次更新v2ray版本以后都要从新配置v2ray客户端，那么需要映射出`v2ray`和`caddy`的配置目录到宿主机，同时，证书在一定时间内不能申请多次，所以最好把证书也映射出来，命令如下：
