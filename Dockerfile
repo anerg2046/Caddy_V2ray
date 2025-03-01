@@ -27,11 +27,13 @@ RUN set -xe \
     && mkdir -p \
     ${CADDY_PATH_CONF} \
     ${V2R_PATH_CONF} \
+    /app \
     && cp /usr/share/zoneinfo/${TZ} /etc/localtime \
     && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray.zip ${V2R_URL} \
-    && unzip /tmp/v2ray.zip -d /tmp/ \
-    && mv /tmp/v2ray /usr/bin/ \
-    && chmod +x /usr/bin/v2ray \
+    && unzip /tmp/v2ray.zip -d /tmp/v2ray \
+    && mv /tmp/v2ray /app \
+    && ln -s /app/v2ray/v2ray /usr/bin/v2ray \
+    && chmod +x /app/v2ray/v2ray \
     && chmod +x /usr/bin/boot.sh \
     # 删除不必要的东西
     && apk del .build-deps \

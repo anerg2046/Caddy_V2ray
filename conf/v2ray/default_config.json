@@ -18,6 +18,10 @@
                 "wsSettings": {
                     "path": "/ws_path/"
                 }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": ["http", "tls"]
             }
         }
     ],
@@ -25,6 +29,21 @@
         {
             "protocol": "freedom",
             "settings": {}
+        },
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "block"
         }
-    ]
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "outboundTag": "block",
+                "protocol": ["bittorrent"]
+            }
+        ]
+    }
 }
